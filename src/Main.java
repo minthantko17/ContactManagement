@@ -12,11 +12,10 @@ public class Main {
         File dataIpt=new File("DataFile.csv");
         Scanner dataScan=new Scanner(dataIpt);
 
-
         //create arraylist
         ArrayList<ContactClass> arrayList=new ArrayList<>();
 
-
+        System.out.println("Contacts loading. Please wait...");
         //load file into arraylist
         while(dataScan.hasNext()){      //read line by line
             String dataLine=dataScan.nextLine();
@@ -24,15 +23,45 @@ public class Main {
             arrayList.add(new ContactClass(token.nextToken().trim(),token.nextToken().trim(),token.nextToken().trim()));       //put into arrayList
         }
         dataScan.close();
+
+        System.out.println("Contacts loaded successfully.");
         //---------------------------------------------------------
 
-        //1.view contact
+        System.out.println("\nContact Manager");
+        System.out.println("------------------");
+        System.out.print("1. View contact.\n2. Add contact\n3. Edit Contact\n4. Delete Contact\nSelect your function: ");
+
+        Scanner ipt=new Scanner(System.in);
+        int chooseFunction=ipt.nextInt();
+
+        switch (chooseFunction){    //choose function to perform
+            case 1: viewContact(arrayList);
+                break;
+            case 2: addContact(arrayList);
+                break;
+            case 3: editContact(arrayList);
+                break;
+            case 4: deleteContact(arrayList);
+                break;
+            default:
+                System.out.println("Invalid Input.");
+                break;
+        }
+        saveToFile(arrayList);
+
+        //It worked LoL
+
+    }
+
+    //view contact (printing)
+    private static void viewContact(ArrayList<ContactClass> arrayList){
         for (int i=0; i<arrayList.size(); i++){
             System.out.println(i+1+"\t"+arrayList.get(i).toString());
         }
-        //---------------------------------------------------------
+    }
 
-        //2.add contact
+    //add contact
+    private static void addContact(ArrayList<ContactClass> arrayList){
         Scanner input=new Scanner(System.in);
         System.out.print("Enter name: ");
         String name=input.nextLine();
@@ -49,9 +78,10 @@ public class Main {
         //writeToData.close();
 
         System.out.println("Content added successfully!");
-        //---------------------------------------------------------
+    }
 
-        //3.update contact
+    //edit contact
+    private static void editContact(ArrayList<ContactClass> arrayList){
         System.out.println("Update Contact");
         for (int i=0; i<arrayList.size(); i++){     //displaying names and id first
             System.out.println(i+1+"\t"+arrayList.get(i).toString());
@@ -99,31 +129,30 @@ public class Main {
                 break;
         }
         System.out.println("Contact Updated Successfully.");
-        //------------------------------------------------------
+    }
 
-
-        //4. delete contact
+    //delete contact
+    private static void deleteContact(ArrayList<ContactClass> arrayList){
+        Scanner input=new Scanner(System.in);
+        
         System.out.print("Enter Contact code you want to delete: ");
-        int deleteChoice=input2.nextInt()-1;
+        int deleteChoice=input.nextInt()-1;
 
         arrayList.remove(deleteChoice);
         System.out.println("Deleted");
         for (int i=0; i<arrayList.size(); i++){
             System.out.println(i+1+"\t"+arrayList.get(i).toString());
         }
+    }
 
-
+    //save to file
+    private static void saveToFile(ArrayList<ContactClass> arrayList)throws IOException{
         //save from arrayList to data file
-        FileWriter writeToData=new FileWriter(dataIpt);        //write to data file
+        FileWriter writeToData=new FileWriter("Datafile.csv");        //write to data file
         for (int i=0; i<arrayList.size();i++){
             writeToData.write(arrayList.get(i).toString()+"\n");
         }
         writeToData.close();
-        System.out.println("done");
-
-        input.close();
-        input2.close();
-        //It worked LoL
-
     }
+
 }
