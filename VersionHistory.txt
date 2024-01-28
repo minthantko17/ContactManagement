@@ -1,0 +1,34 @@
+Ealry Versions
+--------------
+1.  Initial Commit
+    The commit initiated, only README file exists
+
+2.  prototypeWithFolders
+    Main functions are created and tested. 
+    In this prototype, we can run the program only in order (e.g. we need to view contact and add contact before deleting or editing contact.)
+    Data file is created outside source codes folder.
+    Main program load data from file, put those into ArrayList.
+    Everything updated during the program is added to or deleted from ArrayList.
+    When the program ends, the data in .csv file is overwritten by updated datas in ArrayList.
+
+
+Stable Versions
+---------------
+**Version 1**
+-------------
+1.  firstVersionWithSwitches
+    Only Name, Phone numbers, Email are included in contact list.
+    Switch function is added to the main method. You can now directly perform the function you want.
+    Each function (i.e. View, add, Edit, Delete contact) are separated into methods.
+    The program stop automatically after performing one function.
+
+2.  functionalWithSwitches
+    The system will run until you choose to EXIT.
+    After ciewing contact list, you will be requested to click ENTER key to go back to Main Menu.
+    (in previous version, main menu automatically pops up while we are viewing contact list.)
+    The Continue or Back function are added everytime we Add, Delete or Edit contact.
+    
+3.  Version 1.0
+    (Actually functionalWithSwitches version might be version 1.0. I don't know how to change commit names. TwT)
+    Stable file is created and Version Note is added.
+    README file is modified a little bit.
