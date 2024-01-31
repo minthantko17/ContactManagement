@@ -32,3 +32,9 @@ Stable Versions
     (Actually functionalWithSwitches version might be version 1.0. I don't know how to change commit names. TwT)
     Stable file is created and Version Note is added.
     README file is modified a little bit.
+
+4.  Version 1.1
+    Fixed:  When we enter string input in main menu, the system will show invalid input.
+            (Traceback appears in previous version.)
+    Added:  Contact searching. 
+            (Best matchhfunction is also added if the contact is not found.)
