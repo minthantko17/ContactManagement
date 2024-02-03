@@ -3,6 +3,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -17,7 +19,7 @@ public class Main {
         System.out.println("\nContacts loading. Please wait...\n");
         
         //load file into arraylist
-        loadFile();    
+        loadFile();
         
         //intro messages and menu selection
         System.out.println("Contacts loaded successfully.");
@@ -65,6 +67,9 @@ public class Main {
         for (int i=0; i<arrayList.size(); i++){
             System.out.println(i+1+"\t"+arrayList.get(i).toString());
         }
+        if (arrayList.size()==0){
+            System.out.println("The Contact List Is Empty.");
+        }
     }
 
     //add contact
@@ -81,6 +86,7 @@ public class Main {
             arrayList.add(new ContactClass(name, number, mail));    //add to local (arraylist)
             System.out.println("Content added successfully!");
             
+            Collections.sort(arrayList);
             choice=continueOrNot("Add another Contact.");       //continue or back to menu
 
         }while(!choice.equals("0"));
@@ -88,79 +94,128 @@ public class Main {
 
     //edit contact
     private static void editContact(){
-        String choice="";
-        do{
-            System.out.println("Update Contact");
-            viewContact(); //display name and ID first
+        try{
+            String choice="";
+            do{
+                System.out.println("Update Contact");
+                viewContact(); //display name and ID first
 
-            //select contact ID to edit
-            System.out.print("Enter contact ID: ");
-            int contactId=input.nextInt()-1;
+                //select contact ID to edit
+                System.out.print("Enter '0' to cancle operation.\nEnter contact ID: ");
+                int contactId=input.nextInt()-1;
+                input.nextLine();
 
-            String tempName=arrayList.get(contactId).getName();        //temps to hold unchanged data
-            String tempNumber=arrayList.get(contactId).getNumber();
-            String tempMail=arrayList.get(contactId).getMail();
+                if(contactId==-1){  //to cancle operation in midway.
+                    break;
+                }
 
-            System.out.println("Choose from the following options to edit.");    //choose the one you want to update (name or number or mail)
-            System.out.println("1. Name: "+tempName);
-            System.out.println("2. Mobile Number: "+tempNumber);
-            System.out.println("3. Mail: "+tempMail);
-            System.out.print("Which one you want to edit: ");
-            int editChoice=input.nextInt();
+                String tempName=arrayList.get(contactId).getName();        //temps to hold unchanged data
+                String tempNumber=arrayList.get(contactId).getNumber();
+                String tempMail=arrayList.get(contactId).getMail();
+
+                System.out.println("Choose from the following options to edit.");    //choose the one you want to update (name or number or mail)
+                System.out.println("1. Name: "+tempName);
+                System.out.println("2. Mobile Number: "+tempNumber);
+                System.out.println("3. Mail: "+tempMail);
+                System.out.println("4. Edit all.");
+                System.out.println("0. Cancle editing.");
+                System.out.print("Which one you want to edit: ");
+                int editChoice=input.nextInt();
+                input.nextLine();
+
+                switch (editChoice) {                                   //edit and update in arrayList
+                    case 0: break;
+                    case 1:
+                        System.out.print("Enter new name: ");
+                        String newName=input.nextLine();
+                        arrayList.set(contactId, new ContactClass(newName,tempNumber,tempMail));
+                        System.out.println("Contact Updated Successfully.");           
+                        break;
+                
+                    case 2:
+                        System.out.print("Enter new number: ");
+                        String newNumber=input.nextLine();
+                        arrayList.set(contactId,new ContactClass(tempName,newNumber,tempMail));
+                        System.out.println("Contact Updated Successfully.");
+                        break;
+
+                    case 3:
+                        System.out.print("Enter new mail: ");
+                        String newMail=input.nextLine();
+
+                        arrayList.set(contactId,new ContactClass(tempName,tempNumber,newMail));
+                        System.out.println("Contact Updated Successfully.");
+                        break;
+                    case 4:
+                        System.out.print("Enter new Name: ");
+                        newName=input.nextLine();
+                        System.out.print("Enter new Number: ");
+                        newNumber=input.nextLine();
+                        System.out.print("Enter new Mail: ");
+                        newMail=input.nextLine();
+                        arrayList.set(contactId, new ContactClass(newName, newNumber, newMail));
+                        System.out.println("Contact Updtaed Successfully.");
+                        break;
+
+                    default:
+                        System.out.println("Invalid Input. Hee hee");
+                        break;
+                }
+
+                Collections.sort(arrayList);
+                choice=continueOrNot("Edit another Contact.");
+
+            }while(!choice.equals("0"));
+        }
+        catch (InputMismatchException e){       //if user input string
+            System.out.println("\nInvalid Input. Try Again.\n");
             input.nextLine();
-
-            switch (editChoice) {                                   //edit and update in arrayList
-                case 1:
-                    System.out.print("Enter new name: ");
-                    String newName=input.nextLine();
-                    arrayList.set(contactId, new ContactClass(newName,tempNumber,tempMail));
-                    System.out.println("Contact Updated Successfully.");           
-                    break;
-            
-                case 2:
-                    System.out.print("Enter new number: ");
-                    String newNumber=input.nextLine();
-                    arrayList.set(contactId,new ContactClass(tempName,newNumber,tempMail));
-                    System.out.println("Contact Updated Successfully.");
-                    break;
-
-                case 3:
-                    System.out.print("Enter new mail: ");
-                    String newMail=input.nextLine();
-                    arrayList.set(contactId,new ContactClass(tempName,tempNumber,newMail));
-                    System.out.println("Contact Updated Successfully.");
-                    break;
-
-                default:
-                    System.out.println("Invalid Input.");
-                    break;
-            }
-
-            choice=continueOrNot("Edit another Contact.");
-
-        }while(!choice.equals("0"));
+            editContact();
+        }
+        catch(IndexOutOfBoundsException e){     //if user input out of bound number
+            System.out.println("\nWrong Input Number. Try Again.\n");
+            editContact();
+        }
     }
 
     //delete contact
     private static void deleteContact(){ 
-        String choice="";
-        viewContact(); 
-        do{
-            System.out.print("Enter Contact code you want to delete: ");
-            int deleteChoice=input.nextInt()-1;
+        try{
+            String choice="";
+            viewContact(); 
+            do{
+                System.out.print("Press '0' to cancle operation.\nEnter Contact code you want to delete: ");
+                int deleteChoice=input.nextInt()-1;
+                input.nextLine();
+
+                if(deleteChoice==-1){
+                    break;
+                }
+
+                arrayList.remove(deleteChoice);
+                System.out.println("Deleted");
+
+                Collections.sort(arrayList);
+                choice=continueOrNot("Delete another contact.");
+
+            }while(!choice.equals("0"));
+        }
+        catch (InputMismatchException e) {      //if user input string
+            System.out.println("\nInvalid input. Try again.\n");
             input.nextLine();
-
-            arrayList.remove(deleteChoice);
-            System.out.println("Deleted");
-
-            choice=continueOrNot("Delete another contact.");
-
-        }while(!choice.equals("0"));
+            deleteContact();
+        }
+        catch(IndexOutOfBoundsException e){     //if user input out of bond number.
+            System.out.println("\nWrong Input Number. Try Again.\n");
+            deleteContact();
+        }
+        
     }
 
     //save to file
     private static void saveToFile()throws IOException{
         //save from arrayList to data file
+        Collections.sort(arrayList);
         FileWriter writeToData=new FileWriter("Datafile.csv");        //write to data file
         for (int i=0; i<arrayList.size();i++){
             writeToData.write(arrayList.get(i).toString()+"\n");
@@ -179,6 +234,7 @@ public class Main {
             arrayList.add(new ContactClass(token.nextToken().trim(),token.nextToken().trim(),token.nextToken().trim()));       //put into arrayList
         }
         dataScan.close();
+        Collections.sort(arrayList);
     }
 
     private static String continueOrNot(String x){

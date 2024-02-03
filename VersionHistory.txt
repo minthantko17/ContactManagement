@@ -38,3 +38,11 @@ Stable Versions
             (Traceback appears in previous version.)
     Added:  Contact searching. 
             (Best matchhfunction is also added if the contact is not found.)
+
+5.  Version 1.2
+    Fixed:  Edit Contact    Added try, catch for invalid input
+            Delete Contact  Added try, catch for invalie input.
+    Added:  Cancle button for fuctions.
+            Contact not found text. (when there is no contact)
+            Contact are sorted.
+            Edit all butoon (editing name, number, mail at once) in contact.
