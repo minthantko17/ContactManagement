@@ -46,3 +46,9 @@ Stable Versions
             Contact not found text. (when there is no contact)
             Contact are sorted.
             Edit all butoon (editing name, number, mail at once) in contact.
+
+6. Version 1.3
+    Adjusted:   View Contact    When choosing View Contact, only the names will appears first. 
+                                The details will appear only when you choose that name. Added try, catch block for invalid input.
+                Search Contact  Best matched names will display more than one result.   
+                Display         Enhanced display a little bit.           

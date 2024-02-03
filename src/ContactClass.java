@@ -44,8 +44,13 @@ public class ContactClass implements Comparable<ContactClass>{
 
     //to string
     public String toString(){
-        return name+"\t,"+number+"\t,"+mail;
+        return name+","+number+","+mail;
     }
+
+    public String toString(int i){
+        return "Name\t:\t"+name+"\nNumber\t:\t"+number+"\nMail\t:\t"+mail;
+    }
+
     @Override
     public int compareTo(ContactClass o) {
         return this.getName().compareToIgnoreCase(o.getName());
