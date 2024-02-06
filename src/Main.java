@@ -106,22 +106,33 @@ public class Main {
     //add contact
     private static void addContact(){
         String choice="1";
-        do{
-            System.out.println("\nAdd Contact");
+        System.out.println("\nAdd Contact");
+        while(!choice.equals("0")){
             System.out.print("Enter name: ");
             String name=input.nextLine();
+            if(name.isBlank()){
+                System.out.println("NAME  field is required!");
+                //name="<undefined name>";
+                continue;
+            }
             System.out.print("Enter Mobile Number: ");
             String number=input.nextLine();
             System.out.print("Enter email address: ");
             String mail=input.nextLine();
 
+            if(number.trim().equals("")){
+                number="<undefined number>";
+            }
+            if(mail.trim().equals("")){
+                mail="<undefined mail>";
+            }
             arrayList.add(new ContactClass(name, number, mail));    //add to local (arraylist)
             System.out.println("\nContent added successfully!\n");
             
             Collections.sort(arrayList);
             choice=continueOrNot("Add another Contact.");       //continue or back to menu
 
-        }while(!choice.equals("0"));
+        }
     }
 
     //edit contact
@@ -214,8 +225,8 @@ public class Main {
     private static void deleteContact(){ 
         try{
             String choice="";
-            displayNames(); 
             do{
+                displayNames(); 
                 System.out.print("Press '0' to cancle operation.\nEnter Contact code you want to delete: ");
                 int deleteChoice=input.nextInt()-1;
                 input.nextLine();
