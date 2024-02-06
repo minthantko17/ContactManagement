@@ -56,3 +56,6 @@ Stable Versions
 7. Version 1.4
     Adjusted:   Add Contact     Name is a required filed now. You can't skip the name as blank.
                 Delete Contact  Contact list are displayed again if we choose Delete again.
+
+8. Version 2.0
+    The methods are separated from Main file and moved into ContactMethods.

@@ -7,9 +7,9 @@
 
 ## **Team Banana**
 **Members:**
-- LEVI JOSEPH THORUP    ID: 662115509
-- MIN THANT KO          ID: 662115510
-- SAW RORY YIN          ID: 662115515
+- LEVI JOSEPH THORUP    ID: 662115509   (Testing)
+- MIN THANT KO          ID: 662115510   (Implementation)
+- SAW RORY YIN          ID: 662115515   (PJ management)
 
 ---
 

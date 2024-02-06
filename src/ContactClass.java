@@ -2,7 +2,6 @@ public class ContactClass implements Comparable<ContactClass>{
     private String name;
     private String number;
     private String mail;
-    private String note;
 
     //constructors
     public ContactClass(){
@@ -24,9 +23,6 @@ public class ContactClass implements Comparable<ContactClass>{
     public void setMail(String mail){
         this.mail=mail;
     }
-    public void setNote(String note){
-        this.note=note;
-    }
 
     //getter
     public String getName(){
@@ -37,9 +33,6 @@ public class ContactClass implements Comparable<ContactClass>{
     }
     public String getMail(){
         return mail;
-    }
-    public String getNote(){
-        return note;
     }
 
     //to string
