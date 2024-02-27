@@ -59,3 +59,7 @@ Stable Versions
 
 8. Version 2.0
     The methods are separated from Main file and moved into ContactMethods.
+
+9. Version 2.1
+    Added:      Create account and LogIn Logout system are added.
+    Adjusted:   Foulder are separated as contactData and userData.

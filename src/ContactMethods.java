@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 public class ContactMethods {
     //create Scanner, ArrayList, variable
     static Scanner input=new Scanner(System.in);
-    static ArrayList<ContactClass> arrayList=new ArrayList<>();
+    static ArrayList<ContactClass> arrayListContact=new ArrayList<>();
     static String looper="";
  
     //---------------------------------------------------------------//
@@ -25,7 +25,7 @@ public class ContactMethods {
 
         try{
             //if contact list is empty...
-            if(arrayList.size()==0){        
+            if(arrayListContact.size()==0){        
                 System.out.print("\n>>The Contact is Empty. Press ENTER to go back to main menu.<<\n");
                 input.nextLine();
                 return;
@@ -34,14 +34,14 @@ public class ContactMethods {
             //user select to view contact detail
             System.out.println("\nEnter '0' to go back to Main Menu.");
             System.out.print("Enter Contact ID to view detail: ");
-            int contactID=input.nextInt()-1;    //subtract 1 because arrayList starts from 0
+            int contactID=input.nextInt()-1;    //subtract 1 because arrayListContact starts from 0
             input.nextLine();   //to avoid scanner error
             if(contactID==-1){  //if user input 0, go back to main menu.
                 return;
             }
 
             //display selected contact
-            System.out.println("\n"+arrayList.get(contactID).toString(contactID)+"\n");
+            System.out.println("\n"+arrayListContact.get(contactID).toString(contactID)+"\n");
             
             //go back to viewContact
             System.out.print("Press 'ENTER' to go back.");
@@ -85,11 +85,11 @@ public class ContactMethods {
                 mail="-";
             }
 
-            //add inputs to arrayList
-            arrayList.add(new ContactClass(name, number, mail));
+            //add inputs to arrayListContact
+            arrayListContact.add(new ContactClass(name, number, mail));
 
             System.out.println("\n>> Contact Successfully Added! <<");  //alert message
-            Collections.sort(arrayList);    //sort contact list by name
+            Collections.sort(arrayListContact);    //sort contact list by name
             looper=continueOrNot("Add another Contact.");
         }
         looper="";  //reset looper
@@ -104,14 +104,14 @@ public class ContactMethods {
 
                 //select ID to edit
                 System.out.print("\nEnter '0' to cancle operation.\nEnter Contact ID to edit: ");
-                int contactID=input.nextInt()-1;    //subtract 1 beacuse arrayList index start from 0
+                int contactID=input.nextInt()-1;    //subtract 1 beacuse arrayListContact index start from 0
                 input.nextLine();       //to avoid scanner error
                 if(contactID==-1){      //go back to main menu
                     break;
                 }
 
                 editToSelectedData(contactID);  //edit
-                Collections.sort(arrayList);    //sort contacts by name
+                Collections.sort(arrayListContact);    //sort contacts by name
                 looper=continueOrNot("Edit Another Contact.");      //continue editing or exit
             }
 
@@ -141,9 +141,9 @@ public class ContactMethods {
                     break;
                 }
 
-                arrayList.remove(contactID);    //delete selected contact
+                arrayListContact.remove(contactID);    //delete selected contact
                 System.out.println("\n>> Contact Deleted! <<");
-                Collections.sort(arrayList);    //sort contact by names after deleting
+                Collections.sort(arrayListContact);    //sort contact by names after deleting
                 looper=continueOrNot("Delete Another Contact.");    //conuinue or not
             }
             looper="";      //reset looper
@@ -165,9 +165,9 @@ public class ContactMethods {
             System.out.print("\nEnter the name you want to search: ");
             String nameToSearch=input.nextLine();
 
-            for (int i=0; i<arrayList.size();i++){          //search for exact match
-                if (nameToSearch.equalsIgnoreCase(arrayList.get(i).getName())){
-                    System.out.println("\nLine\t:\t"+(i+1)+"\n"+arrayList.get(i).toString(i)+"\n");
+            for (int i=0; i<arrayListContact.size();i++){          //search for exact match
+                if (nameToSearch.equalsIgnoreCase(arrayListContact.get(i).getName())){
+                    System.out.println("\nLine\t:\t"+(i+1)+"\n"+arrayListContact.get(i).toString(i)+"\n");
                     isFound=true;
                 }
             }
@@ -188,26 +188,27 @@ public class ContactMethods {
 
     //***SUPPORTING FUNCTIONS***
 
-    //Load .csv file into arrayList
-    public static void loadFile() throws FileNotFoundException{
-        File dataIpt=new File("DataFile.csv");  //file input
+    //Load .csv file into arrayListContact
+    public static void loadFile(String fileName) throws FileNotFoundException{
+        File dataIpt=new File(fileName);  //file input
         Scanner dataScan=new Scanner(dataIpt);
+        arrayListContact.clear();
 
         while(dataScan.hasNextLine()){      //read line by line from file
             String dataLine=dataScan.nextLine();
             StringTokenizer token=new StringTokenizer(dataLine,",");    //tokenize each line
-            arrayList.add(new ContactClass(token.nextToken().trim(),token.nextToken().trim(),token.nextToken().trim()));       //put into arrayList
+            arrayListContact.add(new ContactClass(token.nextToken().trim(),token.nextToken().trim(),token.nextToken().trim()));       //put into arrayListContact
         }
         dataScan.close();
-        Collections.sort(arrayList);
+        Collections.sort(arrayListContact);
     }
 
-    //Save updated arrayList to .csv file
-    public static void saveToFile()throws IOException{
-        Collections.sort(arrayList);
-        FileWriter writeToData=new FileWriter("Datafile.csv");        //write to data file
-        for (int i=0; i<arrayList.size();i++){
-            writeToData.write(arrayList.get(i).toString()+"\n");
+    //Save updated arrayListContact to .csv file
+    public static void saveToFile(String fileName)throws IOException, FileNotFoundException{
+        Collections.sort(arrayListContact);
+        FileWriter writeToData=new FileWriter(fileName);        //write to data file
+        for (int i=0; i<arrayListContact.size();i++){
+            writeToData.write(arrayListContact.get(i).toString()+"\n");
         }
         writeToData.close();
     }
@@ -215,8 +216,8 @@ public class ContactMethods {
     //***Display names from contact***
     private static void displayNames(){
         System.out.println("\n-Contact List-\n---------------");
-        for (int i=0; i<arrayList.size(); i++){
-            System.out.println(i+1+"\t"+arrayList.get(i).getName());    //display names form arraylist.
+        for (int i=0; i<arrayListContact.size(); i++){
+            System.out.println(i+1+"\t"+arrayListContact.get(i).getName());    //display names form arraylist.
         }
     }
 
@@ -243,9 +244,9 @@ public class ContactMethods {
     private static void  editToSelectedData(int x){
         try{
             //temps for unchanged data
-            String tempName=arrayList.get(x).getName();
-            String tempNumber=arrayList.get(x).getNumber();
-            String tempMail=arrayList.get(x).getMail();
+            String tempName=arrayListContact.get(x).getName();
+            String tempNumber=arrayListContact.get(x).getNumber();
+            String tempMail=arrayListContact.get(x).getMail();
 
             //Display and input
             System.out.println("\nChoose from the following options.");    //choose the one you want to update (name or number or mail)
@@ -258,7 +259,7 @@ public class ContactMethods {
             int editChoice=input.nextInt();
             input.nextLine();
 
-            switch (editChoice) {                                   //edit and update in arrayList
+            switch (editChoice) {                                   //edit and update in arrayListContact
                 case 0: 
                     System.out.println(">> Opration cancelled. <<\n");
                     break;
@@ -269,7 +270,7 @@ public class ContactMethods {
                         System.out.println("\n>> Name cannot be blank. Contact is not updated! <<\n");
                         break;
                     }
-                    arrayList.set(x, new ContactClass(newName,tempNumber,tempMail));
+                    arrayListContact.set(x, new ContactClass(newName,tempNumber,tempMail));
                     System.out.println("\n>> Contact Successfully Updated. <<\n");           
                     break;
             
@@ -279,7 +280,7 @@ public class ContactMethods {
                     if(newNumber.isBlank()){
                         newNumber="-";
                     }
-                    arrayList.set(x,new ContactClass(tempName,newNumber,tempMail));
+                    arrayListContact.set(x,new ContactClass(tempName,newNumber,tempMail));
                     System.out.println("\n>> Contact Successfully Updated. <<\n");           
                     break;
 
@@ -289,7 +290,7 @@ public class ContactMethods {
                     if(newMail.isBlank()){
                         newMail="-";
                     }
-                    arrayList.set(x,new ContactClass(tempName,tempNumber,newMail));
+                    arrayListContact.set(x,new ContactClass(tempName,tempNumber,newMail));
                     System.out.println("\n>> Contact Successfully Updated. <<\n");           
                     break;
                 case 4:
@@ -309,7 +310,7 @@ public class ContactMethods {
                     if(newMail.isBlank()){
                         newMail="-";
                     }
-                    arrayList.set(x, new ContactClass(newName, newNumber, newMail));
+                    arrayListContact.set(x, new ContactClass(newName, newNumber, newMail));
                     System.out.println("\n>> Contact Successfully Updated. <<\n");           
                     break;
 
@@ -332,21 +333,21 @@ public class ContactMethods {
         int temp1=0;    //current match charLength
         int temp2=-1;   //to store Most match charLength
 
-        //check line by line in arrayList
-        for(int i=0; i<arrayList.size();i++){
+        //check line by line in arrayListContact
+        for(int i=0; i<arrayListContact.size();i++){
             //check shortest name.length() times(userInput & name from arrList)    //removed spaces in names while checking 
-            for(int j=0; j<arrayList.get(i).getName().replaceAll("\\s", "").length() && j<tempNameToSearch.length(); j++){ 
+            for(int j=0; j<arrayListContact.get(i).getName().replaceAll("\\s", "").length() && j<tempNameToSearch.length(); j++){ 
                 
-                if(tempNameToSearch.charAt(j)==arrayList.get(i).getName().toLowerCase().charAt(j)){
+                if(tempNameToSearch.charAt(j)==arrayListContact.get(i).getName().toLowerCase().charAt(j)){
                     temp1=j;
                     if (temp1>temp2){       //store name with most match character length.
-                        mostMatch="Line\t:\t"+(i+1)+"\n"+arrayList.get(i).toString(i);  
+                        mostMatch="Line\t:\t"+(i+1)+"\n"+arrayListContact.get(i).toString(i);  
                     }
                     if (temp1==temp2){      //to display multiple most-match names
                         if (mostMatch==null){
-                            mostMatch="Line\t:\t"+(i+1)+"\n"+arrayList.get(i).toString(i);
+                            mostMatch="Line\t:\t"+(i+1)+"\n"+arrayListContact.get(i).toString(i);
                         }else{
-                            mostMatch=mostMatch+"\n\nLine\t:\t"+(i+1)+"\n"+arrayList.get(i).toString(i);
+                            mostMatch=mostMatch+"\n\nLine\t:\t"+(i+1)+"\n"+arrayListContact.get(i).toString(i);
                         }
                     }
                 }

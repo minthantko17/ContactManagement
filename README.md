@@ -16,3 +16,8 @@
 ## About this Project Folder
     This is a Contact Management Program where you can view, add, edit or delete them.
     This is our first project using java. There can be imperfections or errors in this project.
+
+## Programmar's note (27-feb-2024)
+    Currently, the system itself is functing well (i suppose).
+    Please don't edit or open other folders except Main.java file. It can lead to system error.
+    (for example, deleting userdata by opening and deleting .csv file, and leaving 2 empty line instead of 1 empty line will lead to Traceback TwT)
