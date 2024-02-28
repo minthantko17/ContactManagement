@@ -63,3 +63,6 @@ Stable Versions
 9. Version 2.1
     Added:      Create account and LogIn Logout system are added.
     Adjusted:   Foulder are separated as contactData and userData.
+
+10. Version 2.1.1
+    Fixed       fixed contactData file missing while downloading from github.

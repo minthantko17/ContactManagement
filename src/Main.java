@@ -17,7 +17,7 @@ public class Main {
         while(true){
             System.out.println("\nPlease Select your function: \n1. Create new account\n2. Login\n0. Exit");
             System.out.print(">>");
-            String choiceAcc = new LogInOutMethods().ipt.nextLine();
+            String choiceAcc = LogInOutMethods.ipt.nextLine();
 
             switch(choiceAcc){
                 case "0": System.out.println(">> Bye! Have a nice day! <<");
